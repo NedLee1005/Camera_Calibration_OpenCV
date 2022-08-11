@@ -1,22 +1,18 @@
-from array import array
-from copyreg import constructor
-import string
-from xmlrpc.client import boolean
+
 import numpy as np
 import cv2 as cv
 import glob
 import os
-import argparse
+from calibration_parser import calibration_parser
 
 dir_path = os.path.dirname(os.path.abspath(__file__))
-# termination criteria
 
 
 def check_camera_matrix_exist():
     return os.path.exists(dir_path+"/cam_matrix.npy")
 
 
-def calibrate_camera(row=6, col=7, mm=1, dataPath="OriginalImage"):
+def calibrate_camera(row=6, col=7, mm=1, dataPath="Test"):
     # prepare object points, like (0,0,0), (1,0,0), (2,0,0) ....
     objp = np.zeros((row*col, 3), np.float32)
     objp[:, :2] = np.mgrid[0:col*mm:mm, 0:row*mm:mm].T.reshape(-1, 2)
@@ -24,7 +20,7 @@ def calibrate_camera(row=6, col=7, mm=1, dataPath="OriginalImage"):
     objpoints = []  # 3d point in real world space
     imgpoints = []  # 2d points in image plane.
     criteria = (cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 30, 0.001)
-    # retrive images from OriginalImage
+    # retrive images from Test
     images = glob.glob('{}/*.jpg'.format(dataPath))
     for fname in images:
         img = cv.imread(fname)
@@ -36,6 +32,7 @@ def calibrate_camera(row=6, col=7, mm=1, dataPath="OriginalImage"):
         if ret == True:
             objpoints.append(objp)
             imgpoints.append(corners)
+            #  more precise
             cv.cornerSubPix(gray, corners, (11, 11), (-1, -1), criteria)
     mtx, dist = check_reproject_error(objpoints, imgpoints, gray)
 
@@ -64,6 +61,9 @@ def check_reproject_error(objpoints, imgpoints, gray):
 def undistort_image(images, save_dir):
     mtx = np.load('cam_matrix.npy')
     dist = np.load('cam_distortion.npy')
+    print("===camera matrix===\n",mtx,"\n")
+    print("===distortion coefficients===\n",dist,"\n")
+    print("----------transform images---------------")
     # undistortion
     for fname in images:
         img = cv.imread(fname)
@@ -83,19 +83,10 @@ def undistort_image(images, save_dir):
 
 if __name__ == '__main__':
     # args
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "-s", "--size", help="Enter number of row/col points ex:6 7", type=array, default=[6, 7])
-    parser.add_argument(
-        "-m", "--mm", help="enter square length of chessboard defaut is 1", type=int, default=1)
-    parser.add_argument(
-        "-S", "--save_dir", help="directory to save undistorted images", default="CalibrateImage")
-    parser.add_argument(
-        "-l", "--load_dir", help="directory that contain images for camera calibration", default="OriginalImage")
+    parser = calibration_parser()
     args = parser.parse_args()
 
     if not check_camera_matrix_exist():
         calibrate_camera(args.size[0], args.size[1], args.mm, args.load_dir)
-    images = glob.glob('OriginalImage/*.jpg')
-    print("----------transform images---------------")
+    images = glob.glob('Test/*.jpg')
     undistort_image(images, args.save_dir)
