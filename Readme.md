@@ -22,7 +22,7 @@ optional arguments:
 ```
 ## 執行完畢
 ### 會有三個產出，分別為
-* output undistorted images (location at SAVE_DIR => default: *CalibrateImage*)
+* output undistorted images (location at SAVE_DIR => default: *test*)
 * cam_distortion.npy (distortion coefficients)
   * ![](https://i.imgur.com/KphYWM1.png)
 

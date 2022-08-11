@@ -8,7 +8,7 @@ def calibration_parser():
     parser.add_argument(
         "-m", "--mm", help="enter square length of chessboard defaute is 1", type=int, default=1)
     parser.add_argument(
-        "-S", "--save_dir", help="directory to save undistorted images", default="CalibrateImage")
+        "-S", "--save_dir", help="directory to save undistorted images", default="undistorted_image")
     parser.add_argument(
-        "-l", "--load_dir", help="directory that contain images for camera calibration", default="Test")
+        "-l", "--load_dir", help="directory that contain images for camera calibration", default="test")
     return parser
