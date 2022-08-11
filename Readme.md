@@ -5,7 +5,7 @@ it's welcome to fork from  this directory
 ```bash
 $python .\calibration.py 
 # or
-$python .\calibration.py -s  <row> <col> -m <正方形長度> -S <儲存位置> -l <供矯正的圖片位置>
+$python .\calibration.py -s  <row> <col> -m <正方形長度> -S <undistorted img儲存位置> -l <供矯正的img位置>
 ```
 
 
