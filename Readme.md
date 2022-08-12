@@ -2,7 +2,7 @@
 it's welcome to fork from  this directory
 
 ## 執行 Calibration.py 
-```bash
+```bash session
 $python .\calibration.py 
 # or
 $python .\calibration.py -s  <row> <col> -m <正方形長度> -S <undistorted img儲存位置> -l <供矯正的img位置>
@@ -10,7 +10,7 @@ $python .\calibration.py -s  <row> <col> -m <正方形長度> -S <undistorted im
 
 
 ##  command option
-```
+```bash session
 optional arguments:
   -h, --help            show this help message and exit
   -s SIZE, --size SIZE  Enter number of row/col points ex:6 7
