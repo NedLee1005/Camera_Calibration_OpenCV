@@ -9,7 +9,7 @@ $python .\calibration.py -s  <row> <col> -m <正方形長度> -S <undistorted im
 ```
 
 
-##  command option
+##  Usage
 ```bash session
 optional arguments:
   -h, --help            show this help message and exit
