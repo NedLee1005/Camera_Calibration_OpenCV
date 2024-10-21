@@ -1,0 +1,7 @@
+/.vscode
+/build
+/shader_code
+/pictures
+*.swp
+*.npy
+/__pycache__
